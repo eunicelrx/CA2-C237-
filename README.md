@@ -1,1 +1,104 @@
 # CA2-C237-
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Job</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Job Application App</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav">
+                    <% if (user) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/jobs">View Jobs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/profile/<%= user.userId %>">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/editUser/<%= user.userId %>">Edit Profile</a>
+                        </li>
+                        <% } else { %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/login">Login</a>
+                            </li>
+                            <% } %>
+                        <% if (user.role === "employer") { %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/employer/jobs">My Posted Jobs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/jobs/create">Post a New Job</a>
+                            </li>
+                            <% } %>
+                    <% if (user.role === "admin") { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/users">View all users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/jobs">View all posted jobs</a>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <h1 class="mt-5">New Job</h1>
+        <% if (messages && messages.length > 0) { %>
+            <div class="alert alert-danger">
+                <% messages.forEach(function(message) { %>
+                    <p><%= message %></p>
+                <% }); %>
+            </div>
+        <% } %>
+        <form action="/jobs/create" method="POST" class="mt-4">
+            <div class="form-group">
+                <label for="position">Position:</label>
+                <input type="text" id="position" name="position" class="form-control" required 
+                <% if (formData && formData.position) { %> value="<%= formData.position %>" <% } else { %> value="" <% } %>>
+            </div>
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" class="form-control" required 
+                <% if (formData && formData.location) { %> value="<%= formData.location %>" <% } else { %> value="" <% } %>>
+            </div>
+            <div class="form-group">
+                <label for="password">Pay:</label>
+                <input type="number" id="pay_per_hour" name="pay_per_hour" step="0.01" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Job Nature:</label>
+                <input type="text" id="jobNature" name="jobNature" class="form-control" required 
+                <% if (formData && formData.address) { %> value="<%= formData.address %>" <% } else { %> value="" <% } %>>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <input type="text" id="description" name="description" class="form-control" required 
+                <% if (formData && formData.description) { %> value="<%= formData.description %>" <% } else { %> value="" <% } %>>
+            </div>
+            <div class="form-group">
+                <label for="jobname">Job Name:</label>
+                <input type="text" id="jobname" name="jobname" class="form-control" required
+                <% if (formData && formData.description) { %> value="<%= formData.jobName %>" <%} else { %> value="" <% } %>>
+
+            </div>
+
+            <button type="submit" class="btn btn-primary">Post Job</button>
+            <div class="mt-3">
+                <a href="/login" class="btn btn-warning">Already have an account? Login here</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
